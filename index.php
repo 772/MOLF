@@ -1,4 +1,4 @@
-nothbachtal.de<html>
+<html>
 <body>
 <?php
 $geladen = false;
