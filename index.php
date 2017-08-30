@@ -1,6 +1,14 @@
 <html>
 <body>
 <?php
+function randomKey($length) {
+  $key = "";
+  $pool = array_merge(range(0,9), range('a', 'z'),range('A', 'Z'));
+  for($i=0; $i < $length; $i++)
+    $key .= $pool[mt_rand(0, count($pool) - 1)];
+  return $key;
+}
+
 $geladen = false;
 $existiert = false;
 $nutzer = "";
@@ -20,6 +28,14 @@ if (isset($_POST["email"]) && $_POST["email"] != "") {
 }
 
 else if (isset($_POST["minuten"])) {
+  $time = date('d-m-Y_h-i-s');
+  $rnd = randomKey(50);
+  $filename = $time."_".$rnd."_test.php";
+  $myfile = fopen($filename, "w");
+  $script = "<html><head><meta http-equiv=\"refresh\" content=\"10; URL=../../index.php\"></head><?php echo \"test\"; ?></html>";
+  fwrite($myfile, $script);
+  fclose($myfile);
+	
   $alterbesitzer = $_POST["alterbesitzer"];
   $min = $_POST["minuten"];
   $schoepfer = $_POST["schoepfer"];
