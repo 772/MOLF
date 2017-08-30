@@ -30,9 +30,35 @@ if (isset($_POST["email"]) && $_POST["email"] != "") {
 else if (isset($_POST["minuten"])) {
   $time = date('d-m-Y_h-i-s');
   $rnd = randomKey(50);
-  $filename = $time."_".$rnd."_test.php";
+  $filename = "molf/bestaetigungen/".$time."_".$rnd."_test.php";
   $myfile = fopen($filename, "w");
-  $script = "<html><head><meta http-equiv=\"refresh\" content=\"10; URL=../../index.php\"></head><?php echo \"test\"; ?></html>";
+$script = "
+<html>
+<head>
+<meta http-equiv=\"refresh\" content=\"10; URL=../../index.php\">
+</head>
+<?php
+\$alterbesitzer = ".$_POST["alterbesitzer"].";
+\$min = ".$_POST["minuten"].";
+\$schoepfer = ".$_POST["schoepfer"].";
+\$empf = ".$_POST["empf"].";
+\$filename = \"../konten/\".\$alterbesitzer;
+if (\$alterbesitzer === \$schoepfer) {
+	if (!file_exists(\"../konten/\".\$alterbesitzer))
+	mkdir(\"../konten/\".\$alterbesitzer, 0777, true);
+	\$minrest = 2400;
+	\$di = new RecursiveDirectoryIterator(\"../konten/\".\$alterbesitzer);
+	foreach (new RecursiveIteratorIterator(\$di) as \$filename => \$file) {           
+		if ((substr(\$file, -1) != '.') && (substr(\$file, -2) != '..')) {
+			if (filesize(\$filename) != 0) continue;
+			\$minrest -= file_get_contents(\"../konten/\".\$file->getFilename().\"/\".\$alterbesitzer);
+		}
+	}
+	if (\$min > \$minrest)
+		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\\"index.php\\\">Zurück</a>\");
+}
+?>
+</html>";
   fwrite($myfile, $script);
   fclose($myfile);
 	
