@@ -8,17 +8,14 @@ function randomKey($length) {
     $key .= $pool[mt_rand(0, count($pool) - 1)];
   return $key;
 }
-
 $geladen = false;
 $existiert = false;
 $nutzer = "";
 $besitzS = 2400;
-
 if (!file_exists("molf/konten/"))
     mkdir("molf/konten/", 0777, true);
 if (!file_exists("molf/bestaetigungen/"))
     mkdir("molf/bestaetigungen/", 0777, true);
-
 if (isset($_POST["email"]) && $_POST["email"] != "") {
   $geladen = true;
   $nutzer = $_POST["email"];
@@ -26,7 +23,6 @@ if (isset($_POST["email"]) && $_POST["email"] != "") {
     $existiert = true;
   }
 }
-
 else if (isset($_POST["minuten"])) {
   $time = date('d-m-Y_h-i-s');
   $rnd = randomKey(50);
@@ -92,13 +88,14 @@ else {
     fclose(\$myfile);
   }
   
-  die(\"Transaktion erfolgreich abgeschlossen. E-Mail Bestätigung wurde noch nicht implementiert, weil momentan sowieso nur nach bereits bestehenden Fehlern gesucht wird.<br>Vielen Dank.<br><br><a href=\\\"index.php\\\">Zurück</a>\");
+  die(\"Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\\"index.php\\\">Zurück</a>\");
 ?>
 </html>";
   fwrite($myfile, $script);
   fclose($myfile);
 	
   /* Jetzt E-Mail senden. */
+  die("NOCH NICHT IN BETRIEB! Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt.<br><br><a href=\"index.php\">Zurück</a>");
 }
 ?>
 
