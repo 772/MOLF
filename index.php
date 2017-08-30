@@ -26,7 +26,8 @@ if (isset($_POST["email"]) && $_POST["email"] != "") {
 else if (isset($_POST["minuten"])) {
   $time = date('d-m-Y_h-i-s');
   $rnd = randomKey(50);
-  $filename = "molf/bestaetigungen/".$time."_".$rnd."_test.php";
+  $shortfilename = $time."_".$rnd."_test.php";
+  $filename = "molf/bestaetigungen/".$shortfilename;
   $myfile = fopen($filename, "w");
 $script = "
 <html>
@@ -89,13 +90,14 @@ else {
   }
   
   die(\"Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\\"index.php\\\">Zurück</a>\");
+  unlink(__FILE__);
 ?>
 </html>";
   fwrite($myfile, $script);
   fclose($myfile);
 	
   /* Jetzt E-Mail senden. */
-  mail($_POST["alterbesitzer"], "Bestätigung Transaktion", "Mit dem Öffnen des Links wird Ihre Transaktion bestätigt. Wenn Sie diese nicht angefordert haben, kann diese E-Mail ignoriert werden.\n\nhttp://nothbachtal.de/molf/".$filename, "From: Absender <Absenderemail>");
+  mail($_POST["alterbesitzer"], "Bestätigung Transaktion", "Mit dem Öffnen des Links wird Ihre Transaktion bestätigt. Wenn Sie diese nicht angefordert haben, kann diese E-Mail ignoriert werden.\n\nhttp://nothbachtal.de/molf/".$filename, "From: MOLF <noreply@nothbachtal.de>");
   die("Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt.<br><br><a href=\"index.php\">Zurück</a>");
 }
 ?>
