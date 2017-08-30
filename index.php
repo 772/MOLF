@@ -34,10 +34,10 @@ $script = "
 <meta http-equiv=\"refresh\" content=\"10; URL=../../index.php\">
 </head>
 <?php
-\$alterbesitzer = ".$_POST["alterbesitzer"].";
-\$min = ".$_POST["minuten"].";
-\$schoepfer = ".$_POST["schoepfer"].";
-\$empf = ".$_POST["empf"].";
+\$alterbesitzer = \"".$_POST["alterbesitzer"]."\";
+\$min = \"".$_POST["minuten"]."\";
+\$schoepfer = \"".$_POST["schoepfer"]."\";
+\$empf = \"".$_POST["empf"]."\";
 \$filename = \"../konten/\".\$alterbesitzer;
 if (\$alterbesitzer === \$schoepfer) {
 	if (!file_exists(\"../konten/\".\$alterbesitzer))
@@ -54,7 +54,7 @@ if (\$alterbesitzer === \$schoepfer) {
 		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\\"index.php\\\">Zurück</a>\");
 }
 else {
-    \$filename = \"molf/konten/\".\$alterbesitzer.\"/\".\$schoepfer;
+    \$filename = \"../konten/\".\$alterbesitzer.\"/\".\$schoepfer;
     if (!file_exists(\$filename))
       die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt kein Geld von \".\$schoepfer.\"<br><br><a href=\\\"index.php\\\">Zurück</a>\");
     \$min2 = file_get_contents(\$filename);
@@ -62,8 +62,8 @@ else {
       die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt nicht genug Geld von \".\$schoepfer.\"<br><br><a href=\\\"index.php\\\">Zurück</a>\");
     \$minneu = \$min2 - \$min;
     if (\$minneu == 0) {
-      unlink($filename);
-      unlink(\"molf/konten/\".\$schoepfer.\$alterbesitzer);
+      unlink(\$filename);
+      unlink(\"../konten/\".\$schoepfer.\$alterbesitzer);
     }
     else {
       \$myfile = fopen(\$filename, \"w\");
@@ -72,9 +72,9 @@ else {
     }
   }
   
-  \$filename = \"molf/konten/\".\$empf.\"/\".\$schoepfer;
-  if (!file_exists(\"molf/konten/\".\$empf))
-    mkdir(\"molf/konten/\".\$empf, 0777, true);
+  \$filename = \"../konten/\".\$empf.\"/\".\$schoepfer;
+  if (!file_exists(\"../konten/\".\$empf))
+    mkdir(\"../konten/\".\$empf, 0777, true);
   if (file_exists(\$filename)) {
     \$min = \$min + file_get_contents(\$filename);
   }
@@ -82,7 +82,7 @@ else {
   fwrite(\$myfile, \$min);
   fclose(\$myfile);
   
-  \$filename = \"molf/konten/\".\$schoepfer.\"/\".\$empf;
+  \$filename = \"../konten/\".\$schoepfer.\"/\".\$empf;
   if (!file_exists(\$filename)) {
     \$myfile = fopen(\$filename, \"w\");
     fclose(\$myfile);
@@ -95,7 +95,8 @@ else {
   fclose($myfile);
 	
   /* Jetzt E-Mail senden. */
-  die("NOCH NICHT IN BETRIEB! Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt.<br><br><a href=\"index.php\">Zurück</a>");
+  mail($_POST["alterbesitzer"], "Bestätigung Transaktion", "Mit dem Öffnen des Links wird Ihre Transaktion bestätigt. Wenn Sie diese nicht angefordert haben, kann diese E-Mail ignoriert werden.\n\nhttp://nothbachtal.de/molf/".$filename, "From: Absender <Absenderemail>");
+  die("Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt.<br><br><a href=\"index.php\">Zurück</a>");
 }
 ?>
 
