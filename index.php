@@ -57,66 +57,48 @@ if (\$alterbesitzer === \$schoepfer) {
 	if (\$min > \$minrest)
 		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\\"index.php\\\">Zurück</a>\");
 }
+else {
+    \$filename = \"molf/konten/\".\$alterbesitzer.\"/\".\$schoepfer;
+    if (!file_exists(\$filename))
+      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt kein Geld von \".\$schoepfer.\"<br><br><a href=\\\"index.php\\\">Zurück</a>\");
+    \$min2 = file_get_contents(\$filename);
+    if (\$min > \$min2)
+      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt nicht genug Geld von \".\$schoepfer.\"<br><br><a href=\\\"index.php\\\">Zurück</a>\");
+    \$minneu = \$min2 - \$min;
+    if (\$minneu == 0) {
+      unlink($filename);
+      unlink(\"molf/konten/\".\$schoepfer.\$alterbesitzer);
+    }
+    else {
+      \$myfile = fopen(\$filename, \"w\");
+      fwrite(\$myfile, \$minneu);
+      fclose(\$myfile);
+    }
+  }
+  
+  \$filename = \"molf/konten/\".\$empf.\"/\".\$schoepfer;
+  if (!file_exists(\"molf/konten/\".\$empf))
+    mkdir(\"molf/konten/\".\$empf, 0777, true);
+  if (file_exists(\$filename)) {
+    \$min = \$min + file_get_contents(\$filename);
+  }
+  \$myfile = fopen(\$filename, \"w\");
+  fwrite(\$myfile, \$min);
+  fclose(\$myfile);
+  
+  \$filename = \"molf/konten/\".\$schoepfer.\"/\".\$empf;
+  if (!file_exists(\$filename)) {
+    \$myfile = fopen(\$filename, \"w\");
+    fclose(\$myfile);
+  }
+  
+  die(\"Transaktion erfolgreich abgeschlossen. E-Mail Bestätigung wurde noch nicht implementiert, weil momentan sowieso nur nach bereits bestehenden Fehlern gesucht wird.<br>Vielen Dank.<br><br><a href=\\\"index.php\\\">Zurück</a>\");
 ?>
 </html>";
   fwrite($myfile, $script);
   fclose($myfile);
 	
-  $alterbesitzer = $_POST["alterbesitzer"];
-  $min = $_POST["minuten"];
-  $schoepfer = $_POST["schoepfer"];
-  $empf = $_POST["empf"];
-  $filename = "molf/konten/".$alterbesitzer;
-  if ($alterbesitzer === $schoepfer) {
-	if (!file_exists("molf/konten/".$alterbesitzer))
-		mkdir("molf/konten/".$alterbesitzer, 0777, true);
-    $minrest = 2400;
-    $di = new RecursiveDirectoryIterator("molf/konten/".$alterbesitzer);
-    foreach (new RecursiveIteratorIterator($di) as $filename => $file) {           
-      if ((substr($file, -1) != '.') && (substr($file, -2) != '..')) {
-        if (filesize($filename) != 0) continue;
-        $minrest -= file_get_contents("molf/konten/".$file->getFilename()."/".$alterbesitzer);
-      }
-    }
-    if ($min > $minrest)
-      die("<b>Fehlerhafte Eingabe</b>: ".$alterbesitzer." hat nicht genug von seinem eigenen Geld.<br><br><a href=\"index.php\">Zurück</a>");
-  }
-  else {
-    $filename = "molf/konten/".$alterbesitzer."/".$schoepfer;
-    if (!file_exists($filename))
-      die("<b>Fehlerhafte Eingabe</b>: ".$alterbesitzer." besitzt kein Geld von ".$schoepfer."<br><br><a href=\"index.php\">Zurück</a>");
-    $min2 = file_get_contents($filename);
-    if ($min > $min2)
-      die("<b>Fehlerhafte Eingabe</b>: ".$alterbesitzer." besitzt nicht genug Geld von ".$schoepfer."<br><br><a href=\"index.php\">Zurück</a>");
-    $minneu = $min2 - $min;
-    if ($minneu == 0) {
-      unlink($filename);
-      unlink("molf/konten/".$schoepfer.$alterbesitzer);
-    }
-    else {
-      $myfile = fopen($filename, "w");
-      fwrite($myfile, $minneu);
-      fclose($myfile);
-    }
-  }
-  
-  $filename = "molf/konten/".$empf."/".$schoepfer;
-  if (!file_exists("molf/konten/".$empf))
-    mkdir("molf/konten/".$empf, 0777, true);
-  if (file_exists($filename)) {
-    $min = $min + file_get_contents($filename);
-  }
-  $myfile = fopen($filename, "w");
-  fwrite($myfile, $min);
-  fclose($myfile);
-  
-  $filename = "molf/konten/".$schoepfer."/".$empf;
-  if (!file_exists($filename)) {
-    $myfile = fopen($filename, "w");
-    fclose($myfile);
-  }
-  
-  die("Transaktion erfolgreich abgeschlossen. E-Mail Bestätigung wurde noch nicht implementiert, weil momentan sowieso nur nach bereits bestehenden Fehlern gesucht wird.<br>Vielen Dank.<br><br><a href=\"index.php\">Zurück</a>");
+  /* Jetzt E-Mail senden. */
 }
 ?>
 
