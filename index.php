@@ -1,4 +1,11 @@
 <html>
+<head>
+<style>
+table { border-collapse: collapse; }
+body { font-family: arial; }
+td { padding: 5px; border-top: 2px dashed white; border-bottom: 2px dashed white; background-color: #cec; }
+</style>
+</head>
 <body>
 <?php
 function randomKey($length) {
