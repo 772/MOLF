@@ -48,7 +48,7 @@ else if (isset($_POST["minuten"])) {
 $script = "
 <html>
 <head>
-<meta http-equiv=\"refresh\" content=\"10; URL=../../index.php\">
+<meta http-equiv=\"refresh\" content=\"10; URL=../../molf.php\">
 </head>
 <?php
 \$alterbesitzer = \"".$_POST["alterbesitzer"]."\";
@@ -68,15 +68,15 @@ if (\$alterbesitzer === \$schoepfer) {
 		}
 	}
 	if (\$min > \$minrest)
-		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\\"index.php\\\">Zurück</a>\");
+		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\\"molf.php\\\">Zurück</a>\");
 }
 else {
     \$filename = \"../konten/\".\$alterbesitzer.\"/\".\$schoepfer;
     if (!file_exists(\$filename))
-      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt kein Geld von \".\$schoepfer.\"<br><br><a href=\\\"index.php\\\">Zurück</a>\");
+      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt kein Geld von \".\$schoepfer.\"<br><br><a href=\\\"molf.php\\\">Zurück</a>\");
     \$min2 = file_get_contents(\$filename);
     if (\$min > \$min2)
-      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt nicht genug Geld von \".\$schoepfer.\"<br><br><a href=\\\"index.php\\\">Zurück</a>\");
+      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt nicht genug Geld von \".\$schoepfer.\"<br><br><a href=\\\"molf.php\\\">Zurück</a>\");
     \$minneu = \$min2 - \$min;
     if (\$minneu == 0) {
       unlink(\$filename);
@@ -105,7 +105,7 @@ else {
     fclose(\$myfile);
   }
   
-  die(\"Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\\"index.php\\\">Zurück</a>\");
+  die(\"Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\\"molf.php\\\">Zurück</a>\");
   unlink(__FILE__);
 ?>
 </html>";
@@ -114,7 +114,7 @@ else {
 	
   /* Jetzt E-Mail senden. */
   mail($_POST["alterbesitzer"], "Bestätigung Transaktion", "Mit dem Öffnen des Links wird Ihre Transaktion bestätigt. Wenn Sie diese nicht angefordert haben, kann diese E-Mail ignoriert werden. Der Link ist nur 10 Minuten gültig.\n\nhttp://nothbachtal.de/molf/".$filename, "From: MOLF <noreply@nothbachtal.de>");
-  die("Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt. Der Link ist nur 10 Minuten gültig.<br><br><a href=\"index.php\">Zurück</a>");
+  die("Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt. Der Link ist nur 10 Minuten gültig.<br><br><a href=\"molf.php\">Zurück</a>");
 }
 ?>
 
@@ -122,7 +122,7 @@ else {
 <table class="molf">
 <h3>MOLF - Mailbasiertes Offenes Limitiertes Freigeld</h3>
 <h3>E-Mail Konto laden</h3>
-<form action="index.php" method="POST">
+<form action="molf.php" method="POST">
 <p><input type="text" name="email"></p>
 <p><input type="submit" value="Laden"></p>
 </form>
@@ -167,7 +167,7 @@ if ($geladen) {
 ?>
 </table>
 <h3 id="ueberweisen">3. Arbeitszeit überweisen</h3>
-<form method="POST" action="index.php">
+<form method="POST" action="molf.php">
 <p>Absender <input type="email" name="alterbesitzer" value="<?php echo $nutzer; ?>" required>: <input name="minuten" min="1" max="2400" type="number" value="0" required> Minuten Arbeit von <input type="email" name="schoepfer" required> an Empfänger <input type="email" name="empf" required> <input type="submit" value="versenden"></p>
 </form>
 <h3 id="whitepaper">4. Whitepaper</h3>
