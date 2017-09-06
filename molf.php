@@ -22,7 +22,7 @@ input[type=submit] {
     border-radius: 4px;
     cursor: pointer;
 }
-input[type=submit]:hover { background-color: #45a049; }
+input[type=submit]:hover { background-color: #7ad; }
 </style>
 </head>
 <body>
