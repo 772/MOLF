@@ -84,15 +84,15 @@ if (\$alterbesitzer === \$schoepfer) {
 		}
 	}
 	if (\$min > \$minrest)
-		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\\"molf.php\\\">Zurück</a>\");
+		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\\"../../molf.php\\\">Zurück</a>\");
 }
 else {
     \$filename = \"../konten/\".\$alterbesitzer.\"/\".\$schoepfer;
     if (!file_exists(\$filename))
-      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt kein Geld von \".\$schoepfer.\"<br><br><a href=\\\"molf.php\\\">Zurück</a>\");
+      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt kein Geld von \".\$schoepfer.\"<br><br><a href=\\\"../../molf.php\\\">Zurück</a>\");
     \$min2 = file_get_contents(\$filename);
     if (\$min > \$min2)
-      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt nicht genug Geld von \".\$schoepfer.\"<br><br><a href=\\\"molf.php\\\">Zurück</a>\");
+      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt nicht genug Geld von \".\$schoepfer.\"<br><br><a href=\\\"../../molf.php\\\">Zurück</a>\");
     \$minneu = \$min2 - \$min;
     if (\$minneu == 0) {
       unlink(\$filename);
@@ -121,7 +121,7 @@ else {
     fclose(\$myfile);
   }
   
-  die(\"Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\\"molf.php\\\">Zurück</a>\");
+  die(\"Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\\"../../molf.php\\\">Zurück</a>\");
   unlink(__FILE__);
 ?>
 </html>";
