@@ -222,30 +222,10 @@ type="email" name="empf" required></p>
 <p><input type="submit" value="Überweisen"></p>
 </form>
 <h3 id="whitepaper">Whitepaper</h3>
-<p>Diese Währung funktioniert <b>mailbasiert</b>, sodass jedes E-Mail Konto auf der Welt ohne sich jemals registrieren zu müssen 
-
-standartmäßig 2400 Arbeitsminuten bzw. 40 Arbeitsstunden gutgeschrieben hat und frei über diese verfügen kann. Man benötigt somit kein 
-
-Passwort und keine Profilangaben, stattdessen wird zur Identifikation vor jeder Transaktion ein Bestätigungslink an die jeweilige E-
-
-Mail gesendet. Wird diese Bestätigung nicht bestätigt, wird die gewünschte Transaktion niemals ausgeführt.</p>
-<p>MOLF hat einen <b>offenen</b> Quellcode auf <a href="https://github.com/772/MOLF">Github</a>. Das Grundgerüst von MOLF ist 
-
-minimalistisch und besteht nur aus dieser einzigen PHP-Datei, welche natürlich beliebig modifiziert und aufgehübscht werden kann. 
-
-Gerade weil der Code dahinter so klein und einfach ist, ist die Währung wenigstens auch leicht verständlich, was bei einigen 
-
-Kryptowährungen wie Bitcoin nicht der Fall ist, da sein Blockchain zwar leicht grob erklärt ist, im Detail aber sehr komplex und 
-
-kompliziert ist. Dank der Verständlichkeit kann also auch der Laie prüfen, ob er den Source-Code sinnvoll findet.</p>
-<p>Um Inflation zu vermeiden ist diese Währung <b>limitiert</b>, das heißt man kann von seiner eigenen Währung nicht mehr als seine 40 
-
-Stunden schöpfen.</p>
-<p>Zudem ist diese Währung eine spezielle Form von <b>Freigeld</b>. Freigeld ist sogenanntes "Fließendes Geld", welches einen 
-
-automatischen Negativzins auf Geld legt, um die Umlaufgeschwindigkeit zu erhöhen und das sinnlose Geldhorten zu unterbinden. Das 
-
-funktioniert, indem am 1. Tag jeden Monats 1% der Geldmenge ihren originalen Schöpfer zurücküberwiesen werden.</p>
+<p>Diese Währung funktioniert <b>mailbasiert</b>, sodass jedes E-Mail Konto auf der Welt ohne sich jemals registrieren zu müssen standartmäßig 2400 Arbeitsminuten bzw. 40 Arbeitsstunden gutgeschrieben hat und frei über diese verfügen kann. Man benötigt somit kein Passwort und keine Profilangaben, stattdessen wird zur Identifikation vor jeder Transaktion ein Bestätigungslink an die jeweilige E-Mail gesendet. Wird diese Bestätigung nicht bestätigt, wird die gewünschte Transaktion niemals ausgeführt.</p>
+<p>MOLF hat einen <b>offenen</b> Quellcode auf <a href="https://github.com/772/MOLF">Github</a>. Das Grundgerüst von MOLF ist minimalistisch und besteht nur aus dieser einzigen PHP-Datei, welche natürlich beliebig modifiziert und aufgehübscht werden kann. Gerade weil der Code dahinter so klein und einfach ist, ist die Währung wenigstens auch leicht verständlich, was bei einigen Kryptowährungen wie Bitcoin nicht der Fall ist, da sein Blockchain zwar leicht grob erklärt ist, im Detail aber sehr komplex und kompliziert ist. Dank der Verständlichkeit kann also auch der Laie prüfen, ob er den Source-Code sinnvoll findet.</p>
+<p>Um Inflation zu vermeiden ist diese Währung <b>limitiert</b>, das heißt man kann von seiner eigenen Währung nicht mehr als seine 40 Stunden schöpfen.</p>
+<p>Zudem ist diese Währung eine spezielle Form von <b>Freigeld</b>. Freigeld ist sogenanntes "Fließendes Geld", welches einen automatischen Negativzins auf Geld legt, um die Umlaufgeschwindigkeit zu erhöhen und das sinnlose Geldhorten zu unterbinden. Das funktioniert, indem am 1. Tag jeden Monats 1% der Geldmenge ihren originalen Schöpfer zurücküberwiesen werden.</p>
 </div>
 
 <footer>
