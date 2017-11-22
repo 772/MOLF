@@ -4,13 +4,8 @@
 <style>
 table { border-collapse:separate; border-spacing: 0 0.5em; }
 body { font-family: arial; font-size: 14px; margin: 0; }
-td { padding: 1em; background-color: #9ccc65 ;
-	
-	 }
-	 
-	 tr {outline: thin solid black;
-		 
-		   padding-bottom: 1em;}
+td { padding: 1em; background-color: #9ccc65; }
+tr {outline: thin solid black; padding-bottom: 1em;}
 input, select {
     padding: 12px 20px;
     margin: 8px 0;
@@ -75,7 +70,7 @@ else if (isset($_POST["minuten"])) {
 $script = "
 <html>
 <head>
-<meta http-equiv=\"refresh\" content=\"10; URL=../../molf.php\">
+<meta http-equiv=\"refresh\" content=\"10; URL=../../index.php\">
 </head>
 <?php
 \$alterbesitzer = \"".strtolower($_POST["alterbesitzer"])."\";
@@ -84,7 +79,7 @@ $script = "
 \$empf = \"".strtolower($_POST["empf"])."\";
 \$filename = \"../konten/\".\$alterbesitzer;
 if (\$min < 0)
-	die(\"<b>Fehlerhafte Eingabe</b>: Negativer Betrag.<br><br><a href=\\\"../../molf.php\\\">Zurück</a>\");
+	die(\"<b>Fehlerhafte Eingabe</b>: Negativer Betrag.<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
 if (\$alterbesitzer === \$schoepfer) {
 	if (!file_exists(\"../konten/\".\$alterbesitzer))
 	mkdir(\"../konten/\".\$alterbesitzer, 0777, true);
@@ -97,21 +92,15 @@ if (\$alterbesitzer === \$schoepfer) {
 		}
 	}
 	if (\$min > \$minrest)
-		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\
-
-\"../../molf.php\\\">Zurück</a>\");
+		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
 }
 else {
     \$filename = \"../konten/\".\$alterbesitzer.\"/\".\$schoepfer;
     if (!file_exists(\$filename))
-      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt kein Geld von \".\$schoepfer.\"<br><br><a href=\\
-
-\"../../molf.php\\\">Zurück</a>\");
+      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt kein Geld von \".\$schoepfer.\"<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
     \$min2 = file_get_contents(\$filename);
     if (\$min > \$min2)
-      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt nicht genug Geld von \".\$schoepfer.\"<br><br><a href=\\
-
-\"../../molf.php\\\">Zurück</a>\");
+      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt nicht genug Geld von \".\$schoepfer.\"<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
     \$minneu = \$min2 - \$min;
     if (\$minneu == 0) {
       unlink(\$filename);
@@ -140,7 +129,7 @@ else {
     fclose(\$myfile);
   }
   
-  die(\"Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\\"../../molf.php\\\">Zurück</a>\");
+  die(\"Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
   unlink(__FILE__);
 ?>
 </html>";
@@ -148,25 +137,16 @@ else {
   fclose($myfile);
   
   /* Jetzt E-Mail senden. */
-  mail($_POST["alterbesitzer"], "Bestätigung Transaktion", "Mit dem Öffnen des Links wird Ihre Transaktion bestätigt. Wenn Sie diese 
-
-nicht angefordert haben, kann diese E-Mail ignoriert werden. Der Link ist nur 10 Minuten gültig.\n\nhttp://nothbachtal.de/".$filename, 
-
-"From: MOLF <noreply@nothbachtal.de>");
-  die("Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, 
-
-wird die angeforderte Transaktion, falls möglich, ausgeführt. Der Link ist nur 10 Minuten gültig.<br><br><a href=\"molf.php
-
-\">Zurück</a>");
+  mail($_POST["alterbesitzer"], "Bestätigung Transaktion", "Mit dem Öffnen des Links wird Ihre Transaktion bestätigt. Wenn Sie diese nicht angefordert haben, kann diese E-Mail ignoriert werden. Der Link ist nur 10 Minuten gültig.\n\nhttp://nothbachtal.de/".$filename, "From: MOLF <noreply@nothbachtal.de>");
+  die("Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt. Der Link ist nur 10 Minuten gültig.<br><br><a href=\"index.php\">Zurück</a>");
 }
 ?>
 
 <div class="teil">
 <h2>MOLF - Mailbasiertes Offenes Limitiertes Freigeld</h2>
-<h3>E-Mail Konto laden</h3>
-<form action="molf.php" method="POST">
-<p><input class="input" type="text" name="email" placeholder="Your email..." required></p>
-<p><input class="button" type="submit" value="Laden"></p>
+<form action="index.php" method="POST">
+<p><input class="input" type="email" name="email" required></p>
+<p><input class="button" type="submit" value="E-Mail Konto laden"></p>
 </form>
 <h3><?php if ($geladen) echo strtolower($_POST["email"]); else echo "Keine E-Mail geladen."; ?></h3>
 <p><a href="#fremde">Eigene Arbeitszeit im Umlauf</a></p>
@@ -184,9 +164,7 @@ if ($existiert) {
       if (filesize($filename) != 0) continue;
       $betrag = file_get_contents("molf/konten/".$file->getFilename()."/".$nutzer);
       $besitzS -= $betrag;
-      echo "<tr><td>".$betrag."</td><td>Minuten Arbeit von ".$nutzer.".</td><td>Aktueller Besitzer ist ".$file->getFilename
-
-().".</td></tr>";
+      echo "<tr><td>".$betrag."</td><td>Minuten Arbeit von ".$nutzer.".</td><td>Aktueller Besitzer ist ".$file->getFilename().".</td></tr>";
     }
   }
 }
@@ -203,9 +181,7 @@ if ($geladen) {
     foreach (new RecursiveIteratorIterator($di) as $filename => $file) {           
       if ((substr($file, -1) != '.') && (substr($file, -2) != '..')) {
         if (filesize($filename) == 0) continue;
-        echo "<tr><td>".file_get_contents($filename)."</td><td>Minuten Arbeit von ".$file->getFilename()."</td><td>Aktueller Besitzer 
-
-ist ".$nutzer.".</td></tr>";
+        echo "<tr><td>".file_get_contents($filename)."</td><td>Minuten Arbeit von ".$file->getFilename()."</td><td>Aktueller Besitzer ist ".$nutzer.".</td></tr>";
       }
     }
   }
@@ -213,12 +189,8 @@ ist ".$nutzer.".</td></tr>";
 ?>
 </table>
 <h3 id="ueberweisen">Arbeitszeit überweisen</h3>
-<form method="POST" action="molf.php">
-<p>Absender <input type="email" name="alterbesitzer" value="<?php echo $nutzer; ?>" required> versendet <input name="minuten" min="1" 
-
-max="2400" type="number" value="0" required> Minuten Arbeit von <input type="email" name="schoepfer" required> an den Empfänger <input 
-
-type="email" name="empf" required></p>
+<form method="POST" action="index.php">
+<p>Absender <input type="email" name="alterbesitzer" value="<?php echo $nutzer; ?>" required> versendet <input name="minuten" min="1" max="2400" type="number" value="0" required> Minuten Arbeit von <input type="email" name="schoepfer" required> an den Empfänger <input type="email" name="empf" required></p>
 <p><input type="submit" value="Überweisen"></p>
 </form>
 <h3 id="whitepaper">Whitepaper</h3>
@@ -230,7 +202,7 @@ type="email" name="empf" required></p>
 
 <footer>
 <div class="teil">
-<p>Copyright &copy; 2017 Armin Schäfer / nothbachtal.de</p>
+<p><a href="impressum.php">Impressum</a></p>
 </div>
 </footer>
 
