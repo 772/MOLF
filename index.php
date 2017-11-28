@@ -70,66 +70,66 @@ else if (isset($_POST["minuten"])) {
 $script = "
 <html>
 <head>
-<meta http-equiv=\"refresh\" content=\"10; URL=../../index.php\">
+<meta http-equiv='refresh' content='10; URL=../../index.php'>
 </head>
 <?php
-\$alterbesitzer = \"".strtolower($_POST["alterbesitzer"])."\";
-\$min = \"".$_POST["minuten"]."\";
-\$schoepfer = \"".strtolower($_POST["schoepfer"])."\";
-\$empf = \"".strtolower($_POST["empf"])."\";
-\$filename = \"../konten/\".\$alterbesitzer;
+\$alterbesitzer = '".strtolower($_POST["alterbesitzer"])."';
+\$min = '".$_POST["minuten"]."';
+\$schoepfer = '".strtolower($_POST["schoepfer"])."';
+\$empf = '".strtolower($_POST["empf"])."';
+\$filename = '../konten/'.\$alterbesitzer;
 if (\$min < 0)
-	die(\"<b>Fehlerhafte Eingabe</b>: Negativer Betrag.<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
+	die('<b>Fehlerhafte Eingabe</b>: Negativer Betrag.<br><br><a href=\\'../../index.php\\'>Zurück</a>');
 if (\$alterbesitzer === \$schoepfer) {
-	if (!file_exists(\"../konten/\".\$alterbesitzer))
-	mkdir(\"../konten/\".\$alterbesitzer, 0777, true);
+	if (!file_exists('../konten/'.\$alterbesitzer))
+	mkdir('../konten/'.\$alterbesitzer, 0777, true);
 	\$minrest = 2400;
-	\$di = new RecursiveDirectoryIterator(\"../konten/\".\$alterbesitzer);
+	\$di = new RecursiveDirectoryIterator('../konten/'.\$alterbesitzer);
 	foreach (new RecursiveIteratorIterator(\$di) as \$filename => \$file) {           
 		if ((substr(\$file, -1) != '.') && (substr(\$file, -2) != '..')) {
 			if (filesize(\$filename) != 0) continue;
-			\$minrest -= file_get_contents(\"../konten/\".\$file->getFilename().\"/\".\$alterbesitzer);
+			\$minrest -= file_get_contents('../konten/'.\$file->getFilename().'/'.\$alterbesitzer);
 		}
 	}
 	if (\$min > \$minrest)
-		die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" hat nicht genug von seinem eigenen Geld.<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
+		die('<b>Fehlerhafte Eingabe</b>: '.\$alterbesitzer.' hat nicht genug von seinem eigenen Geld.<br><br><a href=\\'../../index.php\\'>Zurück</a>');
 }
 else {
-    \$filename = \"../konten/\".\$alterbesitzer.\"/\".\$schoepfer;
+    \$filename = '../konten/'.\$alterbesitzer.'/'.\$schoepfer;
     if (!file_exists(\$filename))
-      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt kein Geld von \".\$schoepfer.\"<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
+      die('<b>Fehlerhafte Eingabe</b>: '.\$alterbesitzer.' besitzt kein Geld von '.\$schoepfer.'<br><br><a href=\\'../../index.php\\'>Zurück</a>');
     \$min2 = file_get_contents(\$filename);
     if (\$min > \$min2)
-      die(\"<b>Fehlerhafte Eingabe</b>: \".\$alterbesitzer.\" besitzt nicht genug Geld von \".\$schoepfer.\"<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
+      die('<b>Fehlerhafte Eingabe</b>: '.\$alterbesitzer.' besitzt nicht genug Geld von '.\$schoepfer.'<br><br><a href=\\'../../index.php\\'>Zurück</a>');
     \$minneu = \$min2 - \$min;
     if (\$minneu == 0) {
       unlink(\$filename);
-      unlink(\"../konten/\".\$schoepfer.\$alterbesitzer);
+      unlink('../konten/'.\$schoepfer.\$alterbesitzer);
     }
     else {
-      \$myfile = fopen(\$filename, \"w\");
+      \$myfile = fopen(\$filename, 'w');
       fwrite(\$myfile, \$minneu);
       fclose(\$myfile);
     }
   }
   
-  \$filename = \"../konten/\".\$empf.\"/\".\$schoepfer;
-  if (!file_exists(\"../konten/\".\$empf))
-    mkdir(\"../konten/\".\$empf, 0777, true);
+  \$filename = '../konten/'.\$empf.'/'.\$schoepfer;
+  if (!file_exists('../konten/'.\$empf))
+    mkdir('../konten/'.\$empf, 0777, true);
   if (file_exists(\$filename)) {
     \$min = \$min + file_get_contents(\$filename);
   }
-  \$myfile = fopen(\$filename, \"w\");
+  \$myfile = fopen(\$filename, 'w');
   fwrite(\$myfile, \$min);
   fclose(\$myfile);
   
-  \$filename = \"../konten/\".\$schoepfer.\"/\".\$empf;
+  \$filename = '../konten/'.\$schoepfer.'/'.\$empf;
   if (!file_exists(\$filename)) {
-    \$myfile = fopen(\$filename, \"w\");
+    \$myfile = fopen(\$filename, 'w');
     fclose(\$myfile);
   }
   
-  die(\"Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\\"../../index.php\\\">Zurück</a>\");
+  die('Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\'../../index.php\\'>Zurück</a>');
   unlink(__FILE__);
 ?>
 </html>";
@@ -138,7 +138,7 @@ else {
   
   /* Jetzt E-Mail senden. */
   mail($_POST["alterbesitzer"], "Bestätigung Transaktion", "Mit dem Öffnen des Links wird Ihre Transaktion bestätigt. Wenn Sie diese nicht angefordert haben, kann diese E-Mail ignoriert werden. Der Link ist nur 10 Minuten gültig.\n\nhttp://nothbachtal.de/".$filename, "From: MOLF <noreply@nothbachtal.de>");
-  die("Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt. Der Link ist nur 10 Minuten gültig.<br><br><a href=\"index.php\">Zurück</a>");
+  die("Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt. Der Link ist nur 10 Minuten gültig.<br><br><a href='index.php'>Zurück</a>");
 }
 ?>
 
