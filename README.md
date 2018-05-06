@@ -1,2 +1,2 @@
 # MOLF
-MOLF3
+MOLF3 is in pre-alpha status. More comming soon.
