@@ -1,2 +1,2 @@
 # MOLF
-MOLF3 is in pre-alpha status. More comming soon.
+MOLF stands for Mail based Open Limited Freigeld. The idea was to create a monetary system that fits into one small .php file that everybody understands. 
