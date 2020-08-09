@@ -25,26 +25,26 @@ input[type=submit]:hover { background-color: #8d6e63; }
 .teil {
 	padding: 1em 10em;
 }
-footer {
+footer, footer a {
 	background-color: #8d6e63;
 	color: white;
 }
 </style>
 </head>
+
 <body>
 <?php
 function randomKey($length) {
-  $key = "";
-  $pool = array_merge(range(0,9), range('a', 'z'),range('A', 'Z'));
-  for($i=0; $i < $length; $i++)
-    $key .= $pool[mt_rand(0, count($pool) - 1)];
-  return $key;
+    $key = "";
+    $pool = array_merge(range(0,9), range('a', 'z'),range('A', 'Z'));
+    for($i=0; $i < $length; $i++)
+        $key .= $pool[mt_rand(0, count($pool) - 1)];
+    return $key;
 }
 $bestaetigungen = "molf/bestaetigungen/";
-/* Alle Bestätigungen löschen die älter als 10 Minuten sind. */
 foreach (glob($bestaetigungen."*") as $file) {
-if(time() - filectime($file) > 600){
-    unlink($file);
+    if(time() - filectime($file) > 600) {
+        unlink($file); // Deleting confirmations older than 10 minutes.
     }
 }
 $geladen = false;
@@ -56,11 +56,11 @@ if (!file_exists("molf/konten/"))
 if (!file_exists($bestaetigungen))
     mkdir($bestaetigungen, 0777, true);
 if (isset($_POST["email"]) && $_POST["email"] != "") {
-  $geladen = true;
-  $nutzer = strtolower ($_POST["email"]);
-  if (file_exists("molf/konten/" . $nutzer)) {
-    $existiert = true;
-  }
+    $geladen = true;
+    $nutzer = strtolower ($_POST["email"]);
+    if (file_exists("molf/konten/" . $nutzer)) {
+        $existiert = true;
+    }
 }
 else if (isset($_POST["minuten"])) {
   $rnd = randomKey(60);
@@ -79,7 +79,7 @@ $script = "
 \$empf = '".strtolower($_POST["empf"])."';
 \$filename = '../konten/'.\$alterbesitzer;
 if (\$min < 0)
-	die('<b>Fehlerhafte Eingabe</b>: Negativer Betrag.<br><br><a href=\\'../../index.php\\'>Zurück</a>');
+	die('<b>Fehlerhafte Eingabe</b>: Negative value.<br><br><a href=\\'../../index.php\\'>Zurück</a>');
 if (\$alterbesitzer === \$schoepfer) {
 	if (!file_exists('../konten/'.\$alterbesitzer))
 	mkdir('../konten/'.\$alterbesitzer, 0777, true);
@@ -129,21 +129,20 @@ else {
     fclose(\$myfile);
   }
   
-  die('Transaktion erfolgreich abgeschlossen.<br>Vielen Dank.<br><br><a href=\\'../../index.php\\'>Zurück</a>');
+  die('Transaktion erfolgreich abgeschlossen.<br><br><a href=\\'../../index.php\\'>Zurück</a>');
   unlink(__FILE__);
 ?>
 </html>";
   fwrite($myfile, $script);
   fclose($myfile);
   
-  /* Jetzt E-Mail senden. */
   mail($_POST["alterbesitzer"], "Bestätigung Transaktion", "Mit dem Öffnen des Links wird Ihre Transaktion bestätigt. Wenn Sie diese nicht angefordert haben, kann diese E-Mail ignoriert werden. Der Link ist nur 10 Minuten gültig.\n\nhttp://nothbachtal.de/".$filename, "From: MOLF <noreply@nothbachtal.de>");
   die("Es wurde eine Bestätigungs-E-Mail an ".$_POST["alterbesitzer"]." versendet. Sobald der darin enthaltene Link aufgerufen wird, wird die angeforderte Transaktion, falls möglich, ausgeführt. Der Link ist nur 10 Minuten gültig.<br><br><a href='index.php'>Zurück</a>");
 }
 ?>
 
 <div class="teil">
-<h2>MOLF - Mailbasiertes Offenes Limitiertes Freigeld</h2>
+<h2>MOLF - Mail-based Open Limited Freigeld</h2>
 <form action="index.php" method="POST">
 <p><input class="input" type="email" name="email" required></p>
 <p><input class="button" type="submit" value="E-Mail Konto laden"></p>
@@ -154,19 +153,19 @@ else {
 <p><a href="#ueberweisen">Arbeitszeit überweisen</a></p>
 <p><a href="#whitepaper">Whitepaper</a></p>
 
-<h3 id="fremde">Eigene Arbeitszeit im Umlauf</h3>
+<h3 id="fremde">My money in circulation</h3>
 <table>
 <?php
 if ($existiert) {
-  $di = new RecursiveDirectoryIterator("molf/konten/".$nutzer);
-  foreach (new RecursiveIteratorIterator($di) as $filename => $file) {           
-    if ((substr($file, -1) != '.') && (substr($file, -2) != '..')) {
-      if (filesize($filename) != 0) continue;
-      $betrag = file_get_contents("molf/konten/".$file->getFilename()."/".$nutzer);
-      $besitzS -= $betrag;
-      echo "<tr><td>".$betrag."</td><td>Minuten Arbeit von ".$nutzer.".</td><td>Aktueller Besitzer ist ".$file->getFilename().".</td></tr>";
+    $di = new RecursiveDirectoryIterator("molf/konten/".$nutzer);
+    foreach (new RecursiveIteratorIterator($di) as $filename => $file) {           
+        if ((substr($file, -1) != '.') && (substr($file, -2) != '..')) {
+            if (filesize($filename) != 0) continue;
+            $betrag = file_get_contents("molf/konten/".$file->getFilename()."/".$nutzer);
+            $besitzS -= $betrag;
+            echo "<tr><td>".$betrag."</td><td>Minuten Arbeit von ".$nutzer.".</td><td>Aktueller Besitzer ist ".$file->getFilename().".</td></tr>";
+        }
     }
-  }
 }
 ?>
 </table>
@@ -174,35 +173,36 @@ if ($existiert) {
 <table>
 <?php
 if ($geladen) {
-  if ($besitzS > 0)
-    echo "<tr><td>".$besitzS."</td><td>Minuten Arbeit von ".$nutzer."</td><td>Aktueller Besitzer ist ".$nutzer.".</td></tr>";
-  if ($existiert) {
-    $di = new RecursiveDirectoryIterator("molf/konten/".$nutzer);
-    foreach (new RecursiveIteratorIterator($di) as $filename => $file) {           
-      if ((substr($file, -1) != '.') && (substr($file, -2) != '..')) {
-        if (filesize($filename) == 0) continue;
-        echo "<tr><td>".file_get_contents($filename)."</td><td>Minuten Arbeit von ".$file->getFilename()."</td><td>Aktueller Besitzer ist ".$nutzer.".</td></tr>";
-      }
+    if ($besitzS > 0)
+        echo "<tr><td>".$besitzS."</td><td>Minuten Arbeit von ".$nutzer."</td><td>Aktueller Besitzer ist ".$nutzer.".</td></tr>";
+    if ($existiert) {
+        $di = new RecursiveDirectoryIterator("molf/konten/".$nutzer);
+        foreach (new RecursiveIteratorIterator($di) as $filename => $file) {           
+            if ((substr($file, -1) != '.') && (substr($file, -2) != '..')) {
+                if (filesize($filename) == 0) continue;
+                echo "<tr><td>".file_get_contents($filename)."</td><td>Minuten Arbeit von ".$file->getFilename()."</td><td>Aktueller Besitzer ist ".$nutzer.".</td></tr>";
+            }
+        }
     }
-  }
 }
 ?>
 </table>
-<h3 id="ueberweisen">Arbeitszeit überweisen</h3>
+<h3 id="ueberweisen">Transfer</h3>
 <form method="POST" action="index.php">
 <p>Absender <input type="email" name="alterbesitzer" value="<?php echo $nutzer; ?>" required> versendet <input name="minuten" min="1" max="2400" type="number" value="0" required> Minuten Arbeit von <input type="email" name="schoepfer" required> an den Empfänger <input type="email" name="empf" required></p>
 <p><input type="submit" value="Überweisen"></p>
 </form>
-<h3 id="whitepaper">Whitepaper</h3>
-<p>Diese Währung funktioniert <b>mailbasiert</b>, sodass jedes E-Mail Konto auf der Welt ohne sich jemals registrieren zu müssen standartmäßig 2400 Arbeitsminuten bzw. 40 Arbeitsstunden gutgeschrieben hat und frei über diese verfügen kann. Man benötigt somit kein Passwort und keine Profilangaben, stattdessen wird zur Identifikation vor jeder Transaktion ein Bestätigungslink an die jeweilige E-Mail gesendet. Wird diese Bestätigung nicht bestätigt, wird die gewünschte Transaktion niemals ausgeführt.</p>
-<p>MOLF hat einen <b>offenen</b> Quellcode auf <a href="https://github.com/772/MOLF">Github</a>. Das Grundgerüst von MOLF ist minimalistisch und besteht nur aus dieser einzigen PHP-Datei, welche natürlich beliebig modifiziert und aufgehübscht werden kann. Gerade weil der Code dahinter so klein und einfach ist, ist die Währung wenigstens auch leicht verständlich, was bei einigen Kryptowährungen wie Bitcoin nicht der Fall ist, da sein Blockchain zwar leicht grob erklärt ist, im Detail aber sehr komplex und kompliziert ist. Dank der Verständlichkeit kann also auch der Laie prüfen, ob er den Source-Code sinnvoll findet.</p>
-<p>Um Inflation zu vermeiden ist diese Währung <b>limitiert</b>, das heißt man kann von seiner eigenen Währung nicht mehr als seine 40 Stunden schöpfen.</p>
-<p>Zudem ist diese Währung eine spezielle Form von <b>Freigeld</b>. Freigeld ist sogenanntes "Fließendes Geld", welches einen automatischen Negativzins auf Geld legt, um die Umlaufgeschwindigkeit zu erhöhen und das sinnlose Geldhorten zu unterbinden. Das funktioniert, indem am 1. Tag jeden Monats 1% der Geldmenge ihren originalen Schöpfer zurücküberwiesen werden.</p>
 </div>
 
 <footer>
 <div class="teil">
-<p><a href="impressum.php">Impressum</a></p>
+<h3 id="whitepaper">Whitepaper</h3>
+
+<p>This currency is <b>mail-based</b>, so that every email account in the world can have 2400 working minutes or 40 working hours credited and freely available without ever having to register. No password or profile information is required, instead a confirmation link is sent to the email for identification before each transaction. If this confirmation is not confirmed, the requested transaction will never be executed.</p>
+<p>MOLF has an <b>open</b> source code on Github. Also, the code is supposed to be minimalistic and consists only of this single PHP file. The currency is easy to understand, which is not the case with some crypto currencies like Bitcoin, because its block chain is explained in a slightly rough way, but in detail it is very complex and complicated. Thanks to the comprehensibility even the layman can check if he finds the source code useful.</p>
+<p>To avoid huge investments, this currency is <b>limited</b>, i.e. you cannot draw more than 40 hours from your own currency.</p>
+<p>Furthermore this currency is a special form of <b>Freigeld</b>. Freigeld is money with demurrage, it puts an automatic negative interest rate on money to increase the circulation speed and to stop the senseless hoarding of money. This works by transferring 1% of the money supply back to its original creator on the 1st day of each month.</p>
+
 </div>
 </footer>
 
