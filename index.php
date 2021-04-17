@@ -1,35 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-table { border-collapse:separate; border-spacing: 0 0.5em; }
-body { font-family: arial; font-size: 14px; margin: 0; }
-td { padding: 1em; background-color: #9ccc65; }
-tr {outline: thin solid black; padding-bottom: 1em;}
-input, select {
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-input[type=submit] {
-    background-color: #a1887f;
-    color: #000;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-}
-input[type=submit]:hover { background-color: #8d6e63; }
-.teil {
-	padding: 1em 10em;
-}
-footer, footer a {
-	background-color: #8d6e63;
-	color: white;
-}
-</style>
+  <title>mail-based-open-limited-freigeld</title>
+  <meta charset="UTF-8">
+  <style>
+    table { border-collapse:separate; border-spacing: 0 0.5em; }
+    body { font-family: arial; font-size: 14px; margin: 0; }
+    td { padding: 1em; background-color: #9ccc65; }
+    tr {outline: thin solid black; padding-bottom: 1em;}
+    input, select { padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; box-sizing: border-box; }
+    input[type=submit] { background-color: #a1887f; color: #000; padding: 14px 20px; margin: 8px 0; border: none; cursor: pointer; }
+    input[type=submit]:hover { background-color: #8d6e63; }
+    .teil { padding: 1em 10em; }
+    footer, footer a { background-color: #8d6e63; color: white; }
+  </style>
 </head>
 
 <body>
